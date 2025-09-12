@@ -1,6 +1,7 @@
+#função que registra o usuario com nome e senha em um arquivo .txt
 def registros():
     print("="*20,"| Cadastramento => Registro |","="*20)
-    cadastro = open("perfis.txt", "a")
+    cadastro = open("Arquivos/Usuarios.txt", "a")
     nome = input("Digite seu nome: ").strip()
     senha = input("Digite sua senha: ").strip()
     usuario = nome + "#" + senha
@@ -8,15 +9,17 @@ def registros():
     cadastro.close()
     print("Perfil cadastrado")
 
+# função que chama o aquivo usuario é le se ele existe!
 def login():
     print("="*20,"| Cadastramento => Login |","="*20)
-    cadastro = open("perfis.txt", "r")
+    cadastro = open("Arquivos/Usuarios.txt", "r")
     nome = input("digite o nome: ").strip()
     senha = input("digite a senha: ").strip()
     for linha in cadastro:
         linha_lida = linha.strip().split("#")
         if linha_lida[0] == nome and linha_lida[1] == senha:
             cadastro.close()
+            print(f"Seja Bem Vindo {linha_lida[0]}")
             return True
 
 def menu_principal():
