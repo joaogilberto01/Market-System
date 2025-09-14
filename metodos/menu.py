@@ -5,7 +5,7 @@ def cabecalho():
 def registros():
     cabecalho()
     print("|Cadastramento => Registro")
-    cadastro = open("usuarios.txt", "a")
+    cadastro = open("arquivos/usuarios.txt", "a")
     nome = input("Digite seu nome: ").strip()
     senha = input("Digite sua senha: ").strip()
     usuario = nome + "#" + senha
@@ -17,7 +17,7 @@ def registros():
 # função que chama o aquivo usuario é le se ele existe!
 def login():
     print("="*20,"| Cadastramento => Login |","="*20)
-    cadastro = open("Arquivos/Usuarios.txt", "r")
+    cadastro = open("arquivos/usuarios.txt", "r")
     nome = input("digite o nome: ").strip()
     senha = input("digite a senha: ").strip()
     for linha in cadastro:
@@ -25,7 +25,7 @@ def login():
         if linha_lida[0] == nome and linha_lida[1] == senha:
          cadastro.close()
          print("LOGIN REALIZADO COM SUCESSO!!!!!")
-         print(f"SEJA BEM VINDO, {linha_lida[0].capitalize}!")
+         print(f"SEJA BEM VINDO, {linha_lida[0]}!")
          return True
     
     cadastro.close()
@@ -43,7 +43,7 @@ def menu_principal():
             break
         else:
             break
-
+#mudança de hugo
 def menu_cadastrar():
     while True:
         print("="*20,"| Cadastramento |","="*20)
@@ -58,8 +58,6 @@ def menu_cadastrar():
                     break  # Sai do while de login
                 else:
                     print("Tente novamente!")
-        elif(numero == 3):
-            menu_principal()
         elif numero == 4:
             print("Até a proxima")
             break # Sai do while principal
@@ -69,7 +67,7 @@ def menu_compras():
     "Frutas":["pera","morango","banana","goiaba"],
     "Limpeza":["detergente","sabão","desinfetante"],
 }
-
+    
     cabecalho()
     carrinho = []
 
