@@ -12,7 +12,8 @@ def registros():
     cadastro.write(str(usuario) + "\n")
     cadastro.close()
     print("PERFIL CADASTRADO COM SUCESSO!")
-    login()
+    if login():
+        menu_principal()
 
 # função que chama o aquivo usuario é le se ele existe!
 def login():
@@ -47,7 +48,7 @@ def menu_principal():
 def menu_cadastrar():
     while True:
         print("="*20,"| Cadastramento |","="*20)
-        numero = int(input("1-Registrar\n2-Login\n3-Anônimo\n4-Sair\n"))
+        numero = int(input("1-Registrar\n2-Login\n3-Sair\n"))
         if numero == 1:
             registros()
         elif numero == 2:
@@ -58,7 +59,7 @@ def menu_cadastrar():
                     break  # Sai do while de login
                 else:
                     print("Tente novamente!")
-        elif numero == 4:
+        elif numero == 3:
             print("Até a proxima")
             break # Sai do while principal
 
@@ -91,3 +92,32 @@ def menu_compras():
         else:
             print("Valor indefinido!")
             break
+
+def menu_compras2():
+    ESTOQUE2 = {"banana":2,"goiaba":3,"chiclete":0.5
+    }
+    conta = 0
+
+    for key, value in ESTOQUE2.items():
+        print(f"{key} - R${value}")
+
+    while True:
+        valor = input("Digite o que deseja comprar: ")
+        quant = int(input(f"Digite a quantidade do(a) {valor}: "))
+        
+        for key, value in ESTOQUE2.items():
+            if valor in ESTOQUE2:
+                conta = value*quant
+        print(f"o valor total a se pagar agora é de: R${conta}")
+        sair = input("Deseja continuar a fazer compras? s/n\n").lower()
+        if sair == "n":
+            continue
+        elif sair == "s":
+            break
+        else:
+            print("valor indefinido!")
+            break
+
+
+
+menu_compras2()
