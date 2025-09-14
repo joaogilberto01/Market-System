@@ -11,21 +11,26 @@ def registros():
     usuario = nome + "#" + senha
     cadastro.write(str(usuario) + "\n")
     cadastro.close()
-    print("Perfil cadastrado")
+    print("PERFIL CADASTRADO COM SUCESSO!")
+    login()
 
 # função que chama o aquivo usuario é le se ele existe!
 def login():
-    cabecalho()
-    print("| Cadastramento => Login")
-    cadastro = open("usuarios.txt", "r")
+    print("="*20,"| Cadastramento => Login |","="*20)
+    cadastro = open("Arquivos/Usuarios.txt", "r")
     nome = input("digite o nome: ").strip()
     senha = input("digite a senha: ").strip()
     for linha in cadastro:
         linha_lida = linha.strip().split("#")
         if linha_lida[0] == nome and linha_lida[1] == senha:
-            cadastro.close()
-            print(f"Seja Bem Vindo {linha_lida[0].capitalize()} !")
-            return True
+         cadastro.close()
+         print("LOGIN REALIZADO COM SUCESSO!!!!!")
+         print(f"SEJA BEM VINDO, {linha_lida[0].capitalize}!")
+         return True
+    
+    cadastro.close()
+    print("Usuário ou senha incorretos!")
+    return False
 
 def menu_principal():
     while True:
@@ -41,20 +46,23 @@ def menu_principal():
 
 def menu_cadastrar():
     while True:
-        cabecalho()
-        print("| Cadastramento")
+        print("="*20,"| Cadastramento |","="*20)
         numero = int(input("1-Registrar\n2-Login\n3-Anônimo\n4-Sair\n"))
         if numero == 1:
             registros()
-            continue
-        if numero == 2:
-            if login():
-                menu_principal()
-        if numero == 3:
-                menu_principal()
-        if numero == 4:
+        elif numero == 2:
+            while True:
+                loginstatus = login()
+                if loginstatus == True:
+                    menu_principal()
+                    break  # Sai do while de login
+                else:
+                    print("Tente novamente!")
+        elif(numero == 3):
+            menu_principal()
+        elif numero == 4:
             print("Até a proxima")
-            break
+            break # Sai do while principal
 
 def menu_compras():
     ESTOQUE = {
