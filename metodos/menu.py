@@ -11,7 +11,8 @@ def registros():
     usuario = nome + "#" + senha
     cadastro.write(str(usuario) + "\n")
     cadastro.close()
-    print("Perfil cadastrado")
+    print("PERFIL CADASTRADO COM SUCESSO!")
+    login()
 
 # função que chama o aquivo usuario é le se ele existe!
 def login():
