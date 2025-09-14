@@ -5,7 +5,7 @@ def cabecalho():
 def registros():
     cabecalho()
     print("|Cadastramento => Registro")
-    cadastro = open("usuarios.txt", "a")
+    cadastro = open("arquivos/usuarios.txt", "a")
     nome = input("Digite seu nome: ").strip()
     senha = input("Digite sua senha: ").strip()
     usuario = nome + "#" + senha
@@ -17,7 +17,7 @@ def registros():
 def login():
     cabecalho()
     print("| Cadastramento => Login")
-    cadastro = open("usuarios.txt", "r")
+    cadastro = open("arquivos/usuarios.txt", "r")
     nome = input("digite o nome: ").strip()
     senha = input("digite a senha: ").strip()
     for linha in cadastro:
