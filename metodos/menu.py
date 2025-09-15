@@ -137,7 +137,3 @@ def menu_compras2():
         else:
             print("valor indefinido!")
             break
-
-
-
-menu_compras2()
