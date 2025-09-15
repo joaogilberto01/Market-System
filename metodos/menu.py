@@ -3,17 +3,24 @@ def cabecalho():
 
 #função que registra o usuario com nome e senha em um arquivo .txt
 def registros():
+ while True:
     cabecalho()
     print("|Cadastramento => Registro")
-    cadastro = open("arquivos/usuarios.txt", "a")
     nome = input("Digite seu nome: ").strip()
-    senha = input("Digite sua senha: ").strip()
-    usuario = nome + "#" + senha
-    cadastro.write(str(usuario) + "\n")
-    cadastro.close()
-    print("PERFIL CADASTRADO COM SUCESSO!")
-    if login():
-        menu_principal()
+    if verificarUsuariodisponivel(nome):
+      print("Registrando novo usúario...")
+      cadastro = open("arquivos/usuarios.txt", "a")
+      senha = input("Digite sua senha: ").strip()
+      usuario = nome + "#" + senha
+      cadastro.write(str(usuario) + "\n")
+      cadastro.close()
+      print("PERFIL CADASTRADO COM SUCESSO!")
+      print(f"Bem vindo {nome}")
+      menu_principal()
+      break
+    else:
+      print("Tente novamente")
+      continue
 
 # função que chama o aquivo usuario é le se ele existe!
 def login():
@@ -62,6 +69,19 @@ def menu_cadastrar():
         elif numero == 3:
             print("Até a proxima")
             break # Sai do while principal
+
+
+def verificarUsuariodisponivel(nome):
+    verificar = open("arquivos/usuarios.txt","r")
+    for usuarios in verificar:
+        nomeapenas = usuarios.strip().split("#")
+        if nome == nomeapenas[0]:
+            print("O nome não está disponivel")
+            verificar.close()
+            return False
+    verificar.close()
+    return True
+
 
 def menu_compras():
     ESTOQUE = {
@@ -117,7 +137,3 @@ def menu_compras2():
         else:
             print("valor indefinido!")
             break
-
-
-
-menu_compras2()
