@@ -45,7 +45,7 @@ def menu_principal():
         cabecalho()
         numero = int(input("1-Comprar\n2-Historico\n3-Voltar\n"))
         if numero == 1:
-            print("nothing")
+            menu_compras()
         elif numero == 3:
             print("Até a proxima")
             break
@@ -82,3 +82,62 @@ def verificarUsuariodisponivel(nome):
     verificar.close()
     return True
 
+
+def menu_compras():
+    ESTOQUE = {
+    "Frutas":["pera","morango","banana","goiaba"],
+    "Limpeza":["detergente","sabão","desinfetante"],
+}
+    
+    cabecalho()
+    carrinho = []
+
+    for key in ESTOQUE.keys():
+        print(f"|{key} >> :{ESTOQUE[key]}")
+
+    while True:
+        valor = input("Qual produto você deseja comprar: ")
+        quant = int(input(f"Digite a quantidade do(a) {valor}!\n"))
+        for i in ESTOQUE.keys():
+            if valor in ESTOQUE[i]:
+                for i in range(quant):
+                    carrinho.append(valor)
+        
+        print("Seu carrinho com seus itens:", carrinho)
+        sair = input("Deseja continuar? s/n\n").lower()
+        if sair == "n":
+            break
+        elif sair == "s":
+            continue
+        else:
+            print("Valor indefinido!")
+            break
+
+def menu_compras2():
+    ESTOQUE2 = {"banana":2,"goiaba":3,"chiclete":0.5
+    }
+    conta = 0
+
+    for key, value in ESTOQUE2.items():
+        print(f"{key} - R${value}")
+
+    while True:
+        valor = input("Digite o que deseja comprar: ")
+        quant = int(input(f"Digite a quantidade do(a) {valor}: "))
+        
+        for key, value in ESTOQUE2.items():
+            if valor in ESTOQUE2:
+                conta = value*quant
+        print(f"o valor total a se pagar agora é de: R${conta}")
+        sair = input("Deseja continuar a fazer compras? s/n\n").lower()
+        if sair == "n":
+            continue
+        elif sair == "s":
+            break
+        else:
+            print("valor indefinido!")
+            break
+
+
+
+menu_compras2()
