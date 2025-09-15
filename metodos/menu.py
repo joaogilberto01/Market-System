@@ -3,16 +3,24 @@ def cabecalho():
 
 #função que registra o usuario com nome e senha em um arquivo .txt
 def registros():
+ while True:
     cabecalho()
     print("|Cadastramento => Registro")
-    cadastro = open("arquivos/usuarios.txt", "a")
     nome = input("Digite seu nome: ").strip()
-    senha = input("Digite sua senha: ").strip()
-    usuario = nome + "#" + senha
-    cadastro.write(str(usuario) + "\n")
-    cadastro.close()
-    print("PERFIL CADASTRADO COM SUCESSO!")
-    login()
+    if verificarUsuariodisponivel(nome):
+      print("Registrando novo usúario...")
+      cadastro = open("arquivos/usuarios.txt", "a")
+      senha = input("Digite sua senha: ").strip()
+      usuario = nome + "#" + senha
+      cadastro.write(str(usuario) + "\n")
+      cadastro.close()
+      print("PERFIL CADASTRADO COM SUCESSO!")
+      print(f"Bem vindo {nome}")
+      menu_principal()
+      break
+    else:
+      print("Tente novamente")
+      continue
 
 # função que chama o aquivo usuario é le se ele existe!
 def login():
@@ -37,7 +45,7 @@ def menu_principal():
         cabecalho()
         numero = int(input("1-Comprar\n2-Historico\n3-Voltar\n"))
         if numero == 1:
-            menu_compras()
+            print("nothing")
         elif numero == 3:
             print("Até a proxima")
             break
@@ -47,7 +55,7 @@ def menu_principal():
 def menu_cadastrar():
     while True:
         print("="*20,"| Cadastramento |","="*20)
-        numero = int(input("1-Registrar\n2-Login\n3-Anônimo\n4-Sair\n"))
+        numero = int(input("1-Registrar\n2-Login\n3-Sair\n"))
         if numero == 1:
             registros()
         elif numero == 2:
@@ -58,36 +66,19 @@ def menu_cadastrar():
                     break  # Sai do while de login
                 else:
                     print("Tente novamente!")
-        elif numero == 4:
+        elif numero == 3:
             print("Até a proxima")
             break # Sai do while principal
 
-def menu_compras():
-    ESTOQUE = {
-    "Frutas":["pera","morango","banana","goiaba"],
-    "Limpeza":["detergente","sabão","desinfetante"],
-}
-    
-    cabecalho()
-    carrinho = []
 
-    for key in ESTOQUE.keys():
-        print(f"|{key} >> :{ESTOQUE[key]}")
+def verificarUsuariodisponivel(nome):
+    verificar = open("arquivos/usuarios.txt","r")
+    for usuarios in verificar:
+        nomeapenas = usuarios.strip().split("#")
+        if nome == nomeapenas[0]:
+            print("O nome não está disponivel")
+            verificar.close()
+            return False
+    verificar.close()
+    return True
 
-    while True:
-        valor = input("Qual produto você deseja comprar: ")
-        quant = int(input(f"Digite a quantidade do(a) {valor}!\n"))
-        for i in ESTOQUE.keys():
-            if valor in ESTOQUE[i]:
-                for i in range(quant):
-                    carrinho.append(valor)
-        
-        print("Seu carrinho com seus itens:", carrinho)
-        sair = input("Deseja continuar? s/n\n").lower()
-        if sair == "n":
-            break
-        elif sair == "s":
-            continue
-        else:
-            print("Valor indefinido!")
-            break
