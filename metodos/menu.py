@@ -45,7 +45,7 @@ def menu_principal():
         cabecalho()
         numero = int(input("1-Comprar\n2-Historico\n3-Voltar\n"))
         if numero == 1:
-            menu_compras()
+            menu_compras2()
         elif numero == 3:
             print("Até a proxima")
             break
@@ -114,26 +114,51 @@ def menu_compras():
             break
 
 def menu_compras2():
-    ESTOQUE2 = {"banana":2,"goiaba":3,"chiclete":0.5
-    }
-    conta = 0
+    cabecalho()
 
+    ESTOQUE2 = {"Arroz 1kg": 2,
+    "Feijão": 8,
+    "Açúcar": 12,
+    "Café": 6,
+    "Macarrão": 15,
+    "Óleo de soja": 9,
+    "Farinha de trigo": 7,
+    "Sal": 20,
+    "Leite": 25,
+    "Pão francês": 50,
+    "Refrigerante": 10,
+    "Água mineral": 30,
+    "Biscoito recheado": 18,
+    "Chocolate barra": 12,
+    "Sabão em pó": 5,
+    "Sabonete": 40,
+    "Detergente líquido": 22,
+    "Papel higiênico": 12,
+    "Shampoo": 6,
+    "Desinfetante": 10}
+
+    conta = 0
+    carrinho = []
+    print("+" + ("-"*40) + "+")
     for key, value in ESTOQUE2.items():
         print(f"{key} - R${value}")
+        
+    print("+" + ("-"*40) + "+")
 
     while True:
-        valor = input("Digite o que deseja comprar: ")
-        quant = int(input(f"Digite a quantidade do(a) {valor}: "))
-        
-        for key, value in ESTOQUE2.items():
-            if valor in ESTOQUE2:
-                conta = value*quant
-        print(f"o valor total a se pagar agora é de: R${conta}")
-        sair = input("Deseja continuar a fazer compras? s/n\n").lower()
-        if sair == "n":
-            continue
-        elif sair == "s":
-            break
+        escolha = input("Escolha o item que deseja: ").capitalize()
+        if escolha in ESTOQUE2:
+            conta += ESTOQUE2[escolha]
+            print(f"Seu carrinho está em R${conta}")
         else:
-            print("valor indefinido!")
+            print("Esse produto nao existe")
+            continue
+
+        print("Deseja finalizar a conta?")
+        comprar = input(f"Seu carrinho total está em R${conta}, deseja pagar s/n\n").lower()
+        if comprar == "s":
+            print(f"Compra Realizada no total de R${conta}!")
             break
+        elif comprar == "n":
+            print("voltando a comprar...")
+            continue
