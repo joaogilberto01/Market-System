@@ -45,7 +45,7 @@ def menu_principal():
         cabecalho()
         numero = int(input("1-Comprar\n2-Historico\n3-Voltar\n"))
         if numero == 1:
-            menu_compras2()
+            break
         elif numero == 3:
             print("Até a proxima")
             break
@@ -96,16 +96,13 @@ def calcular_carrinho(estoque, item, quantidade):
     
     return carrinho
 
-
-    
-
 def setor_frutas():
     estoque = [["banana", 2, 15],["goiaba",3, 20],["pera", 7, 25]]
     interfaceEstoque(estoque)
     item = input("Escolha o item que deseja comprar: ").lower()
     quantidade = int(input("Digite a quantidade desse item: "))
     carrinho = calcular_carrinho(estoque, item, quantidade)
-    print(f"O valor a se pagar e de {carrinho}")
+    print(f"O valor a se pagar e de R${carrinho}")
 
 
 def mercado():
@@ -113,8 +110,3 @@ def mercado():
     print("|Setor de Compras")
     print("|1.frutas\n|2.comida\n|3.limpeza\n")
     entrada = int(input())
-
-
-setor_frutas()
-
-    
