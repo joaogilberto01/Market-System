@@ -82,83 +82,39 @@ def verificarUsuariodisponivel(nome):
     verificar.close()
     return True
 
+def interfaceEstoque(estoque):
+    print(f"+----------------------------+")
+    for i in range(len(estoque)):
+        print(f"|{i+1}.{estoque[i][0].capitalize()} = R${estoque[i][1]} -- Quantidade: {estoque[i][2]}")
+    print(f"+----------------------------+")
 
-def menu_compras():
-    ESTOQUE = {
-    "Frutas":["pera","morango","banana","goiaba"],
-    "Limpeza":["detergente","sabão","desinfetante"],
-}
+def calcular_carrinho(estoque, item, quantidade):
+    carrinho = 0
+    for items in estoque:
+        if item in items:
+            carrinho += items[1] * quantidade
     
+    return carrinho
+
+
+    
+
+def setor_frutas():
+    estoque = [["banana", 2, 15],["goiaba",3, 20],["pera", 7, 25]]
+    interfaceEstoque(estoque)
+    item = input("Escolha o item que deseja comprar: ").lower()
+    quantidade = int(input("Digite a quantidade desse item: "))
+    carrinho = calcular_carrinho(estoque, item, quantidade)
+    print(f"O valor a se pagar e de {carrinho}")
+
+
+def mercado():
     cabecalho()
-    carrinho = []
+    print("|Setor de Compras")
+    print("|1.frutas\n|2.comida\n|3.limpeza\n")
+    entrada = int(input())
 
-    for key in ESTOQUE.keys():
-        print(f"|{key} >> :{ESTOQUE[key]}")
 
-    while True:
-        valor = input("Qual produto você deseja comprar: ")
-        quant = int(input(f"Digite a quantidade do(a) {valor}!\n"))
-        for i in ESTOQUE.keys():
-            if valor in ESTOQUE[i]:
-                for i in range(quant):
-                    carrinho.append(valor)
-        
-        print("Seu carrinho com seus itens:", carrinho)
-        sair = input("Deseja continuar? s/n\n").lower()
-        if sair == "n":
-            break
-        elif sair == "s":
-            continue
-        else:
-            print("Valor indefinido!")
-            break
+setor_frutas()
 
-def menu_compras2():
-    cabecalho()
-
-    ESTOQUE2 = {"Arroz 1kg": 2,
-    "Feijão": 8,
-    "Açúcar": 12,
-    "Café": 6,
-    "Macarrão": 15,
-    "Óleo de soja": 9,
-    "Farinha de trigo": 7,
-    "Sal": 20,
-    "Leite": 25,
-    "Pão francês": 50,
-    "Refrigerante": 10,
-    "Água mineral": 30,
-    "Biscoito recheado": 18,
-    "Chocolate barra": 12,
-    "Sabão em pó": 5,
-    "Sabonete": 40,
-    "Detergente líquido": 22,
-    "Papel higiênico": 12,
-    "Shampoo": 6,
-    "Desinfetante": 10}
-
-    conta = 0
-    carrinho = []
-    print("+" + ("-"*40) + "+")
-    for key, value in ESTOQUE2.items():
-        print(f"{key} - R${value}")
-        
-    print("+" + ("-"*40) + "+")
-
-    while True:
-        escolha = input("Escolha o item que deseja: ").capitalize()
-        if escolha in ESTOQUE2:
-            conta += ESTOQUE2[escolha]
-            print(f"Seu carrinho está em R${conta}")
-        else:
-            print("Esse produto nao existe")
-            continue
-
-        print("Deseja finalizar a conta?")
-        comprar = input(f"Seu carrinho total está em R${conta}, deseja pagar s/n\n").lower()
-        if comprar == "s":
-            print(f"Compra Realizada no total de R${conta}!")
-            break
-        elif comprar == "n":
-            print("voltando a comprar...")
-            continue
+    
