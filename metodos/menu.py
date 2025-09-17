@@ -82,8 +82,8 @@ def menu_cadastrar():
             while True:
                 loginstatus = login()
                 if (loginstatus == True):
-                    resultado = menu_principal()
-                    if (resultado == True):
+                    resultadodaexclusao = menu_principal()
+                    if (resultadodaexclusao == True):
                        return
                     break  # Sai do while de login
                 else:
@@ -122,10 +122,9 @@ def exclusaodeconta():
    inclusao = open("arquivos/usuarios.txt" , "w")
    for usuariosreescritos in lista_usuarios:
       inclusao.write(usuariosreescritos)
-   print(f"O usuario{nome} foi excluido com sucesso!")
+   print(f"O Usuario {nome} foi excluido com sucesso!")
    inclusao.close()
    menu_cadastrar()
-      
       
 
 def menu_compras():
@@ -186,3 +185,6 @@ def menu_compras2():
 
 
 menu_compras2()
+
+      
+
