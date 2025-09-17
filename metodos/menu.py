@@ -19,8 +19,14 @@ def registros():
       menu_principal()
       break
     else:
-      print("Tente novamente")
-      continue
+       tentarnovamente = input("Você deseja tentar se registrar novamente? S/N?").capitalize()
+       if tentarnovamente == "N":
+          print("Poxa, que pena!")
+          print("voltando ao menu principal...")
+          break
+       else:
+          continue
+      
 
 # função que chama o aquivo usuario é le se ele existe!
 def login():
@@ -43,31 +49,52 @@ def login():
 def menu_principal():
     while True:
         cabecalho()
-        numero = int(input("1-Comprar\n2-Historico\n3-Voltar\n"))
+        numero = int(input("1-Comprar\n2-Historico\n3-Sair da conta\n4-Excluir conta\n"))
         if numero == 1:
             menu_compras()
         elif numero == 3:
-            print("Até a proxima")
+            print(f"Até a proxima")
             break
+        elif numero == 4:
+            while True:
+             exclusao = input("Você tem certeza que quer excluir a conta? S/N?").capitalize()
+             if exclusao == "N":
+                break
+             elif exclusao == "S":
+                exclusão2 = input("Você tem certeza MESMO? S/N?").capitalize()
+                if exclusão2 == "N":
+                   print("Obrigado por repensar na sua escolha!")
+                   break
+                elif exclusão2 == "S":
+                   exclusaodeconta()
+                   return True
+                   
         else:
             break
 #mudança de hugo
 def menu_cadastrar():
     while True:
         print("="*20,"| Cadastramento |","="*20)
-        numero = int(input("1-Registrar\n2-Login\n3-Sair\n"))
+        numero = int(input("1-Registrar\n2-Login\n3-Encerrar o programa\n"))
         if numero == 1:
             registros()
         elif numero == 2:
             while True:
                 loginstatus = login()
-                if loginstatus == True:
-                    menu_principal()
+                if (loginstatus == True):
+                    resultado = menu_principal()
+                    if (resultado == True):
+                       return
                     break  # Sai do while de login
                 else:
-                    print("Tente novamente!")
+                    print("Usuario ou senha errados!")
+                    pergunta = input("Você deseja tentar novamente fazer o login? S/N").capitalize()
+                    if (pergunta != "S"):
+                        break
+
+                    
         elif numero == 3:
-            print("Até a proxima")
+            print("Muito obrigado por utilizar o Mercado Big3! Até a próxima!")
             break # Sai do while principal
 
 
@@ -82,6 +109,24 @@ def verificarUsuariodisponivel(nome):
     verificar.close()
     return True
 
+def exclusaodeconta():
+   print("Excluindo conta...")
+   exclusao = open("arquivos/usuarios.txt","r")
+   nome = input("Digite seu nome de usuario novamente")
+   lista_usuarios = []
+   for usuarios in exclusao:
+      nomedousuario = usuarios.strip().split("#")
+      if nome != nomedousuario[0]:
+         lista_usuarios.append(usuarios)
+   exclusao.close()
+   inclusao = open("arquivos/usuarios.txt" , "w")
+   for usuariosreescritos in lista_usuarios:
+      inclusao.write(usuariosreescritos)
+   print(f"O usuario{nome} foi excluido com sucesso!")
+   inclusao.close()
+   menu_cadastrar()
+      
+      
 
 def menu_compras():
     ESTOQUE = {
@@ -137,3 +182,7 @@ def menu_compras2():
         else:
             print("valor indefinido!")
             break
+
+
+
+menu_compras2()
