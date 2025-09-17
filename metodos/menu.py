@@ -59,6 +59,7 @@ def menu_principal():
             while True:
              exclusao = input("Você tem certeza que quer excluir a conta? S/N?").capitalize()
              if exclusao == "N":
+                print("Obrigado por repensar na sua escolha!")
                 break
              elif exclusao == "S":
                 exclusão2 = input("Você tem certeza MESMO? S/N?").capitalize()
@@ -183,8 +184,6 @@ def menu_compras2():
             break
 
 
-
-menu_compras2()
 
       
 
