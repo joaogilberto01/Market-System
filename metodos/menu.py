@@ -1,3 +1,5 @@
+import hashlib
+
 def cabecalho():
     print("="*20,"| Mercado Big3 |","="*20)
 
@@ -11,7 +13,8 @@ def registros():
       print("Registrando novo usúario...")
       cadastro = open("arquivos/usuarios.txt", "a")
       senha = input("Digite sua senha: ").strip()
-      usuario = nome + "#" + senha
+      hashSenha = hashlib.sha256(senha.encode("utf-8")).hexdigest()
+      usuario = nome + "#" + hashSenha
       cadastro.write(str(usuario) + "\n")
       cadastro.close()
       print("PERFIL CADASTRADO COM SUCESSO!")
@@ -34,9 +37,10 @@ def login():
     cadastro = open("arquivos/usuarios.txt", "r")
     nome = input("digite o nome: ").strip()
     senha = input("digite a senha: ").strip()
+    hashSenha = hashlib.sha256(senha.encode("utf-8")).hexdigest()
     for linha in cadastro:
         linha_lida = linha.strip().split("#")
-        if linha_lida[0] == nome and linha_lida[1] == senha:
+        if linha_lida[0] == nome and linha_lida[1] == hashSenha:
          cadastro.close()
          print("LOGIN REALIZADO COM SUCESSO!!!!!")
          print(f"SEJA BEM VINDO, {linha_lida[0]}!")
