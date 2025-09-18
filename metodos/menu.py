@@ -1,21 +1,23 @@
 def cabecalho():
-    print("="*20,"| Mercado Big3 |","="*20)
-
+    print("=" * 50)
+    print("🛒 BIG 3 SUPERMERCADO 🛒".center(50))
+    print("=" * 50)
+    
 #função que registra o usuario com nome e senha em um arquivo .txt
 def registros():
+ cabecalho()
  while True:
-    cabecalho()
     print("|Cadastramento => Registro")
     nome = input("Digite seu nome: ").strip()
     if verificarUsuariodisponivel(nome):
-      print("Registrando novo usúario...")
+      #print("Registrando novo usúario...")
       cadastro = open("arquivos/usuarios.txt", "a")
       senha = input("Digite sua senha: ").strip()
       usuario = nome + "#" + senha
       cadastro.write(str(usuario) + "\n")
       cadastro.close()
       print("PERFIL CADASTRADO COM SUCESSO!")
-      print(f"Bem vindo {nome}")
+      #print(f"Bem vindo {nome}")
       menu_principal()
       break
     else:
@@ -24,7 +26,8 @@ def registros():
 
 # função que chama o aquivo usuario é le se ele existe!
 def login():
-    print("="*20,"| Cadastramento => Login |","="*20)
+    cabecalho()
+    print("| Cadastramento => Login |")
     cadastro = open("arquivos/usuarios.txt", "r")
     nome = input("digite o nome: ").strip()
     senha = input("digite a senha: ").strip()
@@ -32,10 +35,8 @@ def login():
         linha_lida = linha.strip().split("#")
         if linha_lida[0] == nome and linha_lida[1] == senha:
          cadastro.close()
-         print("LOGIN REALIZADO COM SUCESSO!!!!!")
-         print(f"SEJA BEM VINDO, {linha_lida[0]}!")
+         print(f"Login realizado com seucesso, Seja bem vindo(a) {linha_lida[0]}!")
          return True
-    
     cadastro.close()
     print("Usuário ou senha incorretos!")
     return False
@@ -43,18 +44,19 @@ def login():
 def menu_principal():
     while True:
         cabecalho()
-        numero = int(input("1-Comprar\n2-Historico\n3-Voltar\n"))
+        numero = int(input("1-Olhar produtos 🔎\n2-Finalizar Compra 🛒\n3-Voltar ⬅\n"))
         if numero == 1:
-            break
-        elif numero == 3:
+            mercado()
+        elif numero == 2:
             print("Até a proxima")
             break
         else:
             break
-#mudança de hugo
-def menu_cadastrar():
+
+def menu_cadastrar(): #menu inicial que da origem ao programa
     while True:
-        print("="*20,"| Cadastramento |","="*20)
+        cabecalho()
+        print("| Cadastramento |")
         numero = int(input("1-Registrar\n2-Login\n3-Sair\n"))
         if numero == 1:
             registros()
@@ -69,6 +71,9 @@ def menu_cadastrar():
         elif numero == 3:
             print("Até a proxima")
             break # Sai do while principal
+        else:
+            print("Valor Invalido!")
+            continue
 
 
 def verificarUsuariodisponivel(nome):
@@ -76,7 +81,7 @@ def verificarUsuariodisponivel(nome):
     for usuarios in verificar:
         nomeapenas = usuarios.strip().split("#")
         if nome == nomeapenas[0]:
-            print("O nome não está disponivel")
+            print(f"Infelizmente o nome de usuario: ({nome}) já está em uso 😭\nTente outro...")
             verificar.close()
             return False
     verificar.close()
@@ -97,16 +102,45 @@ def calcular_carrinho(estoque, item, quantidade):
     return carrinho
 
 def setor_frutas():
+    cabecalho()
     estoque = [["banana", 2, 15],["goiaba",3, 20],["pera", 7, 25]]
+    interfaceEstoque(estoque)
+    carrinho = 0
+    while True:
+        item = input("Escolha o item que deseja comprar: ").lower()
+        quantidade = int(input("Digite a quantidade desse item: "))
+        carrinho += calcular_carrinho(estoque, item, quantidade)
+        sair = input("Deseja continuar nas compras s/n: ").lower()
+        if sair == "s": 
+            continue
+        elif sair == "n":
+            break
+    print(f"O valor a se pagar e de R${carrinho}")
+    return carrinho
+
+def setor_alimentos():
+    cabecalho()
+    estoque = [["macarrao", 2, 15],["biscoito",3, 20],["arroz", 7, 25],["feijao", 4, 10]]
     interfaceEstoque(estoque)
     item = input("Escolha o item que deseja comprar: ").lower()
     quantidade = int(input("Digite a quantidade desse item: "))
     carrinho = calcular_carrinho(estoque, item, quantidade)
     print(f"O valor a se pagar e de R${carrinho}")
-
+    return carrinho
 
 def mercado():
-    cabecalho()
-    print("|Setor de Compras")
-    print("|1.frutas\n|2.comida\n|3.limpeza\n")
-    entrada = int(input())
+    carrinho_final = 0
+    while True:
+        cabecalho()
+        print("|Setor de Compras")
+        print("|1.frutas\n|2.Alimentação\n|3.Limpeza|4.Voltar")
+        entrada = int(input())
+        if entrada == 1:
+            carrinho1 = setor_frutas()
+            carrinho_final += carrinho1
+        elif entrada == 2:
+            carrinho2 = setor_alimentos()
+            carrinho_final += carrinho1
+        elif entrada == 4:
+            break
+    return carrinho_final
