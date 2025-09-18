@@ -1,3 +1,5 @@
+import hashlib
+
 def cabecalho():
     print("=" * 50)
     print("🛒 BIG 3 SUPERMERCADO 🛒".center(50))
@@ -13,7 +15,8 @@ def registros():
       #print("Registrando novo usúario...")
       cadastro = open("arquivos/usuarios.txt", "a")
       senha = input("Digite sua senha: ").strip()
-      usuario = nome + "#" + senha
+      hashSenha = hashlib.sha256(senha.encode("utf-8")).hexdigest()
+      usuario = nome + "#" + hashSenha
       cadastro.write(str(usuario) + "\n")
       cadastro.close()
       print("PERFIL CADASTRADO COM SUCESSO!")
@@ -21,8 +24,14 @@ def registros():
       menu_principal()
       break
     else:
-      print("Tente novamente")
-      continue
+       tentarnovamente = input("Você deseja tentar se registrar novamente? S/N?").capitalize()
+       if tentarnovamente == "N":
+          print("Poxa, que pena!")
+          print("voltando ao menu principal...")
+          break
+       else:
+          continue
+      
 
 # função que chama o aquivo usuario é le se ele existe!
 def login():
@@ -31,9 +40,10 @@ def login():
     cadastro = open("arquivos/usuarios.txt", "r")
     nome = input("digite o nome: ").strip()
     senha = input("digite a senha: ").strip()
+    hashSenha = hashlib.sha256(senha.encode("utf-8")).hexdigest()
     for linha in cadastro:
         linha_lida = linha.strip().split("#")
-        if linha_lida[0] == nome and linha_lida[1] == senha:
+        if linha_lida[0] == nome and linha_lida[1] == hashSenha:
          cadastro.close()
          print(f"Login realizado com seucesso, Seja bem vindo(a) {linha_lida[0]}!")
          return True
@@ -44,12 +54,29 @@ def login():
 def menu_principal():
     while True:
         cabecalho()
-        numero = int(input("1-Olhar produtos 🔎\n2-Finalizar Compra 🛒\n3-Voltar ⬅\n"))
+        numero = int(input("1-Olhar produtos 🔎\n2-Finalizar Compra 🛒\n3-Sair da conta ⬅\n4-Excluir Conta ❌"))
         if numero == 1:
             mercado()
         elif numero == 2:
             print("Até a proxima")
+        elif numero == 3:
+            print(f"Até a proxima")
             break
+        elif numero == 4:
+            while True:
+             exclusao = input("Você tem certeza que quer excluir a conta? S/N?").capitalize()
+             if exclusao == "N":
+                print("Obrigado por repensar na sua escolha!")
+                break
+             elif exclusao == "S":
+                exclusão2 = input("Você tem certeza MESMO? S/N?").capitalize()
+                if exclusão2 == "N":
+                   print("Obrigado por repensar na sua escolha!")
+                   break
+                elif exclusão2 == "S":
+                   exclusaodeconta()
+                   return True
+                   
         else:
             break
 
@@ -57,19 +84,27 @@ def menu_cadastrar(): #menu inicial que da origem ao programa
     while True:
         cabecalho()
         print("| Cadastramento |")
-        numero = int(input("1-Registrar\n2-Login\n3-Sair\n"))
+        
+        numero = int(input("1-Registrar\n2-Login\n3-Encerrar o programa\n"))
         if numero == 1:
             registros()
         elif numero == 2:
             while True:
                 loginstatus = login()
-                if loginstatus == True:
-                    menu_principal()
+                if (loginstatus == True):
+                    resultadodaexclusao = menu_principal()
+                    if (resultadodaexclusao == True):
+                       return
                     break  # Sai do while de login
                 else:
-                    print("Tente novamente!")
+                    print("Usuario ou senha errados!")
+                    pergunta = input("Você deseja tentar novamente fazer o login? S/N").capitalize()
+                    if (pergunta != "S"):
+                        break
+
+                    
         elif numero == 3:
-            print("Até a proxima")
+            print("Muito obrigado por utilizar o Mercado Big3! Até a próxima!")
             break # Sai do while principal
         else:
             print("Valor Invalido!")
@@ -87,11 +122,29 @@ def verificarUsuariodisponivel(nome):
     verificar.close()
     return True
 
+
 def interfaceEstoque(estoque):
     print(f"+----------------------------+")
     for i in range(len(estoque)):
         print(f"|{i+1}.{estoque[i][0].capitalize()} = R${estoque[i][1]} -- Quantidade: {estoque[i][2]}")
     print(f"+----------------------------+")
+
+def exclusaodeconta():
+   print("Excluindo conta...")
+   exclusao = open("arquivos/usuarios.txt","r")
+   nome = input("Digite seu nome de usuario novamente")
+   lista_usuarios = []
+   for usuarios in exclusao:
+      nomedousuario = usuarios.strip().split("#")
+      if nome != nomedousuario[0]:
+         lista_usuarios.append(usuarios)
+   exclusao.close()
+   inclusao = open("arquivos/usuarios.txt" , "w")
+   for usuariosreescritos in lista_usuarios:
+      inclusao.write(usuariosreescritos)
+   print(f"O Usuario {nome} foi excluido com sucesso!")
+   inclusao.close()
+   menu_cadastrar()
 
 def calcular_carrinho(estoque, item, quantidade):
     carrinho = 0
@@ -144,3 +197,4 @@ def mercado():
         elif entrada == 4:
             break
     return carrinho_final
+
